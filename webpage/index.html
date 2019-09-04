@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Big Data Visualizer</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body {
+                padding-top: 56px;
+            }
+            .bg-primary {
+                background-color: #fafafa!important;
+            }
+            .bg-secondary, .btn-secondary {
+                background-color: #e0e0e0!important;
+            }
+            .navbar-brand, .nav-link, .btn{
+                color: #333 !important;
+            }
+            .dropdown-toggle::after{
+                float: right;
+                margin-top: 10px;
+            }
+            .dropdown .btn{
+                margin-top: 10px;
+                width: 100%;
+                text-align: left;
+            }
+            #chart,#schart{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body class="bg-primary">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary fixed-top">
+            <div class="container" style="max-width:80%;">
+                <a class="navbar-brand" href="#">Big Data Visualizer</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">egnanach</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">venktesh</a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container" style="max-width:80%;">
+
+            <div class="row" style="margin-top: 40px;">
+
+                    <div class="col-lg-2">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Data Size : <span class="d-sel">Big Data</span>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#" onclick="select('bg', 'dts')">Big Data</a>
+                                    <a class="dropdown-item" href="#" onclick="select('sm', 'dts')">Small Data</a>
+                                </div>
+                            </div>
+                    </div>
+        
+                <div class="col-lg-3">
+        
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Sub-Topic : <span class="st-sel">All Sub-topics</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#" onclick="select('all', 'st')">All Sub-topics</a>
+                                <a class="dropdown-item" href="#" onclick="select('fb', 'st')">Football</a>
+                                <a class="dropdown-item" href="#" onclick="select('bsb', 'st')">Baseball</a>
+                                <a class="dropdown-item" href="#" onclick="select('bkb', 'st')">Basketball</a>
+                                <a class="dropdown-item" href="#" onclick="select('g', 'st')">Golf</a>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-lg-3">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Source : <span class="ds-sel">Twitter</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#" onclick="select('tw', 'ds')">Twitter</a>
+                                <a class="dropdown-item" href="#" onclick="select('nyt', 'ds')">New York Times</a>
+                                <a class="dropdown-item" href="#" onclick="select('cc', 'ds')">Common Crawl</a>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-lg-4">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Compare : <span class="v-sel">Word Count and Co-occurence</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#" onclick="select('ww', 'cmp')">Word Count and Co-occurence</a>
+                                <a class="dropdown-item" href="#" onclick="select('wc_bdsd', 'cmp')">Big Vs Small Data - Word Count</a>
+                                <a class="dropdown-item" href="#" onclick="select('wcoc_bdsd', 'cmp')">Big Vs Small Data - Word Co-occurence</a>
+                            </div>
+                        </div>
+                </div>
+        
+                <div class="col-lg-6" style="margin-top:40px;">
+                    <h4 class="head-left">Word Cloud for Word Count</h4>
+                    <div id="" class="card bg-secondary" style="background-color:#fafafa !important;">
+                        <div class="card-body">
+                            <div id="chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" style="margin-top:40px;">
+                    <h4 class="head-right">Bigram for Word Co-occurence</h4>
+                    <div id="" class="card bg-secondary" style="background-color:#fafafa !important;height:95%;">
+                        <div class="card-body">
+                            <div id="schart"></div>
+                        </div>
+                    </div>
+        
+                </div>
+        
+            </div>        
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="http://d3js.org/d3.v4.min.js"></script>
+        <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
+        
+        <script>
+
+        var config = {
+            'fb': 'Football',
+            'bsb': 'Baseball',
+            'bkb': 'Basketball',
+            'g': 'Golf',
+            'nyt': 'New York Times',
+            'tw': 'Twitter',
+            'cc': 'Common Crawl',
+            'wc': 'Word Count',
+            'wcoc': 'Word Co-occur',
+            'all': 'All Sub-topics',
+            'sm': 'Small Data',
+            'bg': 'Big Data',
+            'ww': 'Word Count and Co-occurence',
+            'wc_bdsd': 'Big Vs Small Data - Word Count',
+            'wcoc_bdsd': 'Big Vs Small - Word Co-occur'
+        }
+
+        var fileName_wc = "tw_all_wc";
+        var fileName_wcoc = "tw_all_wcoc";
+        var datasize = "bigData/"
+        var render1 = false;
+        var renderVal = ""
+
+        function select(value, filter){
+            var split = fileName_wc.split("_");
+            if (filter == 'st'){
+                split[1] = value;
+                $('.st-sel').text(config[value]);
+            }
+            else if(filter == 'ds'){
+                split[0] = value;
+                $('.ds-sel').text(config[value]);
+            }
+            else if(filter == 'dts'){
+                console.log("dst", value, config[value])
+                if(value == 'sm')
+                    datasize = "smallData/sm_"
+                else
+                    datasize = "bigData/"
+                $('.d-sel').text(config[value]);
+                render1 = false;
+                renderVal = value;
+                $('.head-left').text('Word Cloud for Word Count');
+                $('.head-right').text('Bigram for Word Co-occurence');
+            }
+            else if(filter == "cmp"){
+                $('.v-sel').text(config[value]);
+                if(value == "ww"){
+                    render1 = false;
+                    renderVal = value;
+                    $('.head-left').text('Word Cloud for Word Count');
+                    $('.head-right').text('Bigram for Word Co-occurence');
+                }
+                else{
+                    render1 = true;
+                    renderVal = value;
+                }
+            }
+            split[2] = "wc"
+            fileName_wc = split.join("_");
+            split[2] = "wcoc"
+            fileName_wcoc = split.join("_");
+            d3.selectAll("svg").remove();
+            if(render1 == true){
+                console.log("render 1 true", renderVal);
+                if(renderVal == "wc_bdsd"){
+                    console.log(fileName_wc);
+                    d3.selectAll("svg").remove();
+                    drawWordCloud("bigData/"+fileName_wc, "#chart");
+                    drawWordCloud("smallData/sm_"+fileName_wc, "#schart");
+                    $('.head-left').text('Word Cloud for Big Data - Word Count');
+                    $('.head-right').text('Word Cloud for Small Data - Word Count');
+                    return;
+                }
+                else if(renderVal == "wcoc_bdsd"){
+                    d3.selectAll("svg").remove();
+                    drawBubbleCloud("bigData/"+fileName_wcoc, "#chart");
+                    drawBubbleCloud("smallData/sm_"+fileName_wcoc, "#schart");
+                    $('.head-left').text('Bigram for Big Data - Word Co-occurence');
+                    $('.head-right').text('Bigram for Small Data - Word Co-occurence');
+                    return;
+                }
+            }
+            $('.v-sel').text(config["ww"]);
+            $('.head-left').text('Word Cloud for Word Count');
+            $('.head-right').text('Bigram for Word Co-occurence');
+            drawWordCloud(datasize+fileName_wc, "#chart");
+            drawBubbleCloud(datasize+fileName_wcoc, "#schart");
+        }
+
+        drawWordCloud(datasize+fileName_wc, "#chart");
+        drawBubbleCloud(datasize+fileName_wcoc, "#schart");
+
+        function drawWordCloud(csvFile, selector){
+            var fill = d3.scale.category20();
+            var counter = 0;
+            d3.csv("csv/"+csvFile+".csv", function(data){
+                //console.log(counter+=1);
+                counter += 1
+                fs = 20
+                if(counter == 1)
+                    fs = 30
+                else
+                    fs = counter * 5 + 30
+                return {
+                    text: data.word,
+                    size: fs,//data.count
+                    count: counter
+                }
+            },function(data) {
+                data = data.slice(0,10);
+                console.log(data);
+                var factor = 1;
+                // if (data[0].size > 1000)
+                //     factor = 20;
+                // else if(data[0].size > 500)
+                //     factor = 13;
+                d3.layout.cloud().size([500, 640]).words(data)
+                .rotate(function(d) {
+                    return (d.count % 2) * 90;
+                })
+                .font("Impact")
+                .fontSize(function(d) {
+                    return d.size/factor;
+                })
+                .on("end", draw)
+                .start();
+                function draw(words) {
+                    d3.select(selector).append("svg")
+                    .attr("width", 500)
+                    .attr("height", 640)
+                    .attr("align","center")
+                    .append("g")
+                    .attr("transform", "translate(250,300)")
+                    .selectAll("text")
+                    .data(words)
+                    .enter().append("text")
+                    .style("font-size", function(d) {
+                        return d.size/factor + "px";
+                    })
+                    .style("font-family", "Impact")
+                    .style("fill", function(d, i) {
+                        return fill(i);
+                    })
+                    .attr("text-anchor", "middle")
+                    .attr("transform", function(d) {
+                        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    })
+                    .text(function(d) {
+                        return d.text;
+                    });
+                }
+            });
+        }
+
+        //https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168
+        function drawBubbleCloud(csvFile, selector){
+            d3.csv("csv/"+csvFile+".csv", function(data){
+                return {
+                    Name: data.word1+" "+data.word2,
+                    Count: data.count
+                }
+            },function(dataset) {
+                dataset = dataset.slice(0,20);
+                dataset = {"children":dataset};
+                console.log(dataset);
+                var diameter = 500;
+                var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+                var bubble = d3.pack(dataset)
+                    .size([diameter, diameter])
+                    .padding(1.5);
+
+                var svg = d3.select(selector)
+                    .append("svg")
+                    .attr("width", diameter)
+                    .attr("height", diameter)
+                    .attr("class", "bubble");
+
+                var nodes = d3.hierarchy(dataset)
+                    .sum(function(d) { return d.Count; });
+
+                var node = svg.selectAll(".node")
+                    .data(bubble(nodes).descendants())
+                    .enter()
+                    .filter(function(d){
+                        return  !d.children
+                    })
+                    .append("g")
+                    .attr("class", "node")
+                    .attr("transform", function(d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+
+                node.append("title")
+                    .text(function(d) {
+                        return d.Name;
+                    });
+
+                node.append("circle")
+                    .attr("r", function(d) {
+                        return d.r;
+                    })
+                    .style("fill", function(d,i) {
+                        return color(i);
+                    });
+
+                node.append("text")
+                    .attr("dy", ".2em")
+                    .style("text-anchor", "middle")
+                    .text(function(d) {
+                        return d.data.Name.substring(0, d.r / 3);
+                    })
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", function(d){
+                        return d.r/5;
+                    })
+                    .attr("fill", "white");
+
+                d3.select(self.frameElement)
+                    .style("height", diameter + "px");
+
+            })
+        }
+        </script>
+    </body>
+</html>
