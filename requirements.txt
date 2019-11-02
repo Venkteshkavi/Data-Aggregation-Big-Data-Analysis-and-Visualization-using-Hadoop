@@ -1,4 +1,4 @@
-nltk==3.4
+nltk==3.4.5
 pandas==0.24.2
 jsonpickle==1.1
 tqdm==4.31.1
